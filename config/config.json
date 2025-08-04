@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",        
+    "password": "Anjali@1472",    
+    "database": "job_platform",  
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "Anjali@1472",
+    "database": "job_platform_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "Anjali@1472",
+    "database": "job_platform_prod",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
