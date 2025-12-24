@@ -15,21 +15,30 @@ exports.applyToJob = async (req, res) => {
     }
 
     // Check if the user has already applied to this job
+    // const existingApplication = await Application.findOne({
+    //   where: {
+    //     jobId,
+    //     user: req.user.id, // assuming 'user' field exists in Application model
+    //   },
+    // });
     const existingApplication = await Application.findOne({
-      where: {
-        jobId,
-        user: req.user.id, // assuming 'user' field exists in Application model
-      },
-    });
-
+  where: {
+    jobId,
+    userId: req.user.id, // ✅ correct column
+  },
+});
     if (existingApplication) {
       return res.status(400).json({ message: "Already applied to this job" });
     }
 
     // Create the application
+    // const application = await Application.create({
+    //   jobId,
+    //   user: req.user.id,
+    // });
     const application = await Application.create({
       jobId,
-      user: req.user.id,
+      userId: req.user.id, // ✅ correct
     });
 
     res.status(201).json({ message: "Application successful", application });
@@ -41,16 +50,19 @@ exports.applyToJob = async (req, res) => {
 
 exports.getMyApplications = async (req, res) => {
   try {
+    // const applications = await Application.findAll({
+    //   where: { user: req.user.id },
+    //   include: [
+    //     {
+    //       model: Job,
+    //       as: "job", // make sure association alias is correct
+    //     },
+    //   ],
+    // });
     const applications = await Application.findAll({
-      where: { user: req.user.id },
-      include: [
-        {
-          model: Job,
-          as: "job", // make sure association alias is correct
-        },
-      ],
+      where: { userId: req.user.id }, // ✅
+      include: [{ model: Job, as: "job" }],
     });
-
     res.status(200).json({ applications });
   } catch (error) {
     console.error("GetMyApplications Error:", error.message);
